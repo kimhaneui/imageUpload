@@ -1,0 +1,46 @@
+<!-- modal contents -->
+<div class="modal-contents">
+  <form [formGroup]="mainForm" novalidate #f="ngForm">
+    <div class="page-contents-type2 fixed-btn-footer">
+      <div class="row-group mb30">
+        <div class="row">
+          <h2 class="row-title">상담 내용</h2>
+          <div class="textarea line">
+            <textarea [ngClass]="{'valid-error' : mainForm.controls.questionDetail.hasError('maxlength')}" formControlName="questionDetail" cols="30" rows="10" placeholder="문의 하시는 내용을 입력해주세요."></textarea>
+            <span *ngIf="mainForm.controls.questionDetail.hasError('maxlength')" class="valid-msg">요청사항의 글자수는 100자 까지 입력 가능합니다.</span>
+          </div>
+        </div>
+        <ng-container formArrayName="selectFileNames">
+          <ng-container *ngFor="let selectFile of selectFileNames.controls; index as i; ">
+            <div class="row mt10">
+              <div class="input-file line">
+                <div class="file-name">
+                  <span *ngIf="selectFileNames.value[i] === ''" class="text place-holder">파일을 선택하세요</span>
+                  <span *ngIf="selectFileNames.value[i] !== ''" class="text">{{ selectFileNames.value[i] }}</span>
+                  <a (click)="deleteClick(i)" class="icon sm input-delete2">삭제</a>
+                </div>
+                <label class="input-file-label">
+                  파일 선택 <input type="file" accept="image/*" (change)="onFileChange($event, i)" #fileInput class="file-hidden" readonly>
+                </label>
+
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <div class="row">
+          <div class="btn-group both">
+            <button (click)="addClick()" class="btn lg dash-line" role="button"><span class="icon sm plus3">추가</span></button>
+            <button (click)="deleteClick()" class="btn lg dash-line" role="button"><span class="icon sm minus3">삭제</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="btn-group fixed-bottom pd bg2">
+        <button (click)="writeComplete()" class="btn lg default" role="button">문의 요청</button>
+        <ul class="text-list mt20">
+          <li>업무시간(오전9시~오후6시) 중 평균 1시간 내 응답</li>
+        </ul>
+      </div>
+    </div>
+  </form>
+</div>
